@@ -10,6 +10,3 @@ _A place for fabulous products (and what not?)_
 - Sass (Duhh!)
 - _...and Chemical X_
 
-##
-
-#### _Made with <3 by Jawwad_
