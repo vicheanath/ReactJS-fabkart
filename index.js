@@ -9,7 +9,7 @@ import Filter from './components/Filter';
 import QuickView from './components/QuickView';
 import Range from './components/Range';
 
-
+const url = "http://localhost:5000/restaurantmenu-fda8e/asia-east2/api/";
 class App extends Component {
 	constructor() {
 		super();
@@ -19,7 +19,7 @@ class App extends Component {
 			totalItems: 0,
 			totalAmount: 0,
 			term: '',
-			category: '',
+			category: [],
 			cartBounce: false,
 			quantity: 1,
 			quickViewProduct: {},
@@ -43,21 +43,26 @@ class App extends Component {
 	}
 	// Fetch Initial Set of Products from external API
 	getProducts() {
-		//For Localhost use the below url
-		//const url = "products.json";
-
-		// For Production use the below url
-		const url = "products.json";
-
-		axios.get(url)
-			.then(response => {
+		
+		axios.get(url+'products')
+			.then(res => {
 				this.setState({
-					products: response.data,
+					products: res.data,
 				})
+			})
+	}
+	getCategory() {
+		axios.get(url+'categorys')
+			.then(res => {
+				this.setState({
+					category: res.data,
+				})
+				console.log(res.data);
 			})
 	}
 	componentWillMount() {
 		this.getProducts();
+		this.getCategory();
 	}
 
 	// Search by Keyword
@@ -188,7 +193,7 @@ class App extends Component {
 				/>
 				<div className="filter-palace products-wrapper">
 
-					<Filter handleChangeShow={this.changeShow.bind(this)} show={this.state.show} />
+					<Filter handleChangeShow={this.changeShow.bind(this)} categoryList={this.state.category} show={this.state.show} />
 					<Range handleChangeRange={this.changeRange.bind(this)} max={this.state.max} min={this.state.min} />
 				</div>
 

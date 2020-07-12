@@ -1,24 +1,21 @@
 import React, { Component } from 'react';
 
 class Filter extends Component {
-  handleChange({target}){
-       this.props.handleChangeShow(target.value)
-   }
+  handleChange({ target }) {
+    this.props.handleChangeShow(target.value)
+  }
 
   render() {
     return (
-          <div className="filter-select">
-          <select onChange={this.handleChange.bind(this)}>
-            <option value="showall">All Categories</option>
-            <option value="Fashion">Fashion</option>
-            <option value="Phone">Phone</option>
-            <option value="Laptop">Laptop</option>
-            <option value="Camera">Camera</option>
-            <option value="Watch">Watch</option>
+      <div className="filter-select">
+        <select onChange={this.handleChange.bind(this)}>
+          <option value="showall">All Categories</option>
+          {this.props.categoryList.map(cate => {
+            return <option value={cate.name}>{cate.name}</option>
 
-
-          </select>
-          </div>
+          })}
+        </select>
+      </div>
 
     );
   }
