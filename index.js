@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Header from './components/Header';
@@ -10,8 +10,8 @@ import QuickView from './components/QuickView';
 import Range from './components/Range';
 
 
-class App extends Component{
-	constructor(){
+class App extends Component {
+	constructor() {
 		super();
 		this.state = {
 			products: [],
@@ -21,10 +21,10 @@ class App extends Component{
 			term: '',
 			category: '',
 			cartBounce: false,
-			quantity : 1,
+			quantity: 1,
 			quickViewProduct: {},
 			modalActive: false,
-			show : "showall",
+			show: "showall",
 			min: 0,
 			max: 1200,
 		};
@@ -39,46 +39,46 @@ class App extends Component{
 		this.handleRemoveProduct = this.handleRemoveProduct.bind(this);
 		this.openModal = this.openModal.bind(this);
 		this.closeModal = this.closeModal.bind(this);
-		this.handleChangeShow=this.changeShow.bind(this);
+		this.handleChangeShow = this.changeShow.bind(this);
 	}
 	// Fetch Initial Set of Products from external API
-	getProducts(){
+	getProducts() {
 		//For Localhost use the below url
 		//const url = "products.json";
 
 		// For Production use the below url
-		const url="products.json";
+		const url = "products.json";
 
 		axios.get(url)
 			.then(response => {
 				this.setState({
-					products : response.data
+					products: response.data,
 				})
 			})
 	}
-	componentWillMount(){
+	componentWillMount() {
 		this.getProducts();
 	}
 
 	// Search by Keyword
-	handleSearch(event){
-		this.setState({term: event.target.value});
+	handleSearch(event) {
+		this.setState({ term: event.target.value });
 	}
 	// Mobile Search Reset
-	handleMobileSearch(){
-		this.setState({term: ""});
+	handleMobileSearch() {
+		this.setState({ term: "" });
 	}
 	// Filter by Category
-	handleCategory(event){
-		this.setState({category: event.target.value});
+	handleCategory(event) {
+		this.setState({ category: event.target.value });
 		console.log(this.state.category);
 	}
 	// Add to Cart
-	handleAddToCart(selectedProducts){
+	handleAddToCart(selectedProducts) {
 		let cartItem = this.state.cart;
 		let productID = selectedProducts.id;
 		let productQty = selectedProducts.quantity;
-		if(this.checkProduct(productID)){
+		if (this.checkProduct(productID)) {
 			let index = cartItem.findIndex((x => x.id == productID));
 			cartItem[index].quantity = Number(cartItem[index].quantity) + Number(productQty);
 			this.setState({
@@ -88,16 +88,16 @@ class App extends Component{
 			cartItem.push(selectedProducts);
 		}
 		this.setState({
-			cart : cartItem,
+			cart: cartItem,
 			cartBounce: true,
 		});
-		setTimeout(function(){
-             this.setState({cartBounce:false});
-        }.bind(this),1000);
+		setTimeout(function () {
+			this.setState({ cartBounce: false });
+		}.bind(this), 1000);
 		this.sumTotalItems(this.state.cart);
 		this.sumTotalAmount(this.state.cart);
 	}
-	handleRemoveProduct(id, e){
+	handleRemoveProduct(id, e) {
 		let cart = this.state.cart;
 		let index = cart.findIndex((x => x.id == id));
 		cart.splice(index, 1);
@@ -108,70 +108,70 @@ class App extends Component{
 		this.sumTotalAmount(this.state.cart);
 		e.preventDefault();
 	}
-	checkProduct(productID){
+	checkProduct(productID) {
 		let cart = this.state.cart;
-		return cart.some(function(item) {
+		return cart.some(function (item) {
 			return item.id === productID;
 		});
 	}
-	sumTotalItems(){
-        let total = 0;
-        let cart = this.state.cart;
+	sumTotalItems() {
+		let total = 0;
+		let cart = this.state.cart;
 		total = cart.length;
 		this.setState({
 			totalItems: total
 		})
-    }
-	sumTotalAmount(){
-        let total = 0;
-        let cart = this.state.cart;
-        for (var i=0; i<cart.length; i++) {
-            total += cart[i].price * parseInt(cart[i].quantity);
-        }
+	}
+	sumTotalAmount() {
+		let total = 0;
+		let cart = this.state.cart;
+		for (var i = 0; i < cart.length; i++) {
+			total += cart[i].price * parseInt(cart[i].quantity);
+		}
 		this.setState({
 			totalAmount: total
 		})
-    }
+	}
 	//Update Quantity
-	updateQuantity(qty){
+	updateQuantity(qty) {
 		console.log("hola!")
-        this.setState({
-            moq: qty
-        })
+		this.setState({
+			moq: qty
+		})
 	}
 	//Reset Quantity
-	updateQuantity(qty){
+	updateQuantity(qty) {
 		console.log("hola!")
-        this.setState({
-            quantity: qty
-        })
+		this.setState({
+			quantity: qty
+		})
 	}
 	// Open Modal
-	openModal(product){
+	openModal(product) {
 		this.setState({
 			quickViewProduct: product,
 			modalActive: true
 		})
 	}
 	// Close Modal
-	closeModal(){
+	closeModal() {
 		this.setState({
 			modalActive: false
 		})
 	}
-	changeShow(show){
-			 this.setState({show: show});
-	 }
-	 changeRange({value}){
-		 this.setState({
-			 max: value.max,
-			 min: value.min,
-		 });
+	changeShow(show) {
+		this.setState({ show: show });
+	}
+	changeRange({ value }) {
+		this.setState({
+			max: value.max,
+			min: value.min,
+		});
 
-    }
+	}
 
-	render(){
-		return(
+	render() {
+		return (
 			<div className="container">
 				<Header
 					cartBounce={this.state.cartBounce}
@@ -186,11 +186,11 @@ class App extends Component{
 					updateQuantity={this.updateQuantity}
 					productQuantity={this.state.moq}
 				/>
-			<div className="filter-palace products-wrapper">
+				<div className="filter-palace products-wrapper">
 
-			<Filter handleChangeShow={this.changeShow.bind(this)} show={this.state.show}/>
-			<Range  handleChangeRange={this.changeRange.bind(this)} max={this.state.max} min={this.state.min}/>
-		</div>
+					<Filter handleChangeShow={this.changeShow.bind(this)} show={this.state.show} />
+					<Range handleChangeRange={this.changeRange.bind(this)} max={this.state.max} min={this.state.min} />
+				</div>
 
 				<Products
 					min={this.state.min}
@@ -212,5 +212,5 @@ class App extends Component{
 
 ReactDOM.render(
 	<App />,
-  	document.getElementById('root')
+	document.getElementById('root')
 );
