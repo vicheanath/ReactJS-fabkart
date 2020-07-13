@@ -1,7 +1,7 @@
-# FabKart
+# Vteam Menu
 _A place for fabulous products (and what not?)_
 
-## Deployed on Heroku
+## Deployed on
 [http://fabkart.herokuapp.com/](http://fabkart.herokuapp.com/)
 
 ## Stack
